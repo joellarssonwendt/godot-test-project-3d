@@ -1,0 +1,162 @@
+[gd_scene load_steps=17 format=3 uid="uid://d0h3acgnnfrgq"]
+
+[ext_resource type="Shader" uid="uid://cdlt3ujrpad32" path="res://level/sky_with_stars.tres" id="1_5ev06"]
+[ext_resource type="Texture2D" uid="uid://ca3jtautvrj1u" path="res://level/moon.png" id="2_bv4v3"]
+[ext_resource type="PackedScene" uid="uid://bij84ol81kcts" path="res://level/kill_plane/kill_plane_3d.tscn" id="3_8ysv3"]
+[ext_resource type="Material" uid="uid://dwjc5hqnxitps" path="res://level/ground.tres" id="6_trypo"]
+[ext_resource type="Material" uid="uid://cwmijyo6560y3" path="res://level/flag_ground.tres" id="7_ddd6t"]
+[ext_resource type="PackedScene" uid="uid://c6dc57cgv1k57" path="res://level/moving_platform.tscn" id="8_lxby2"]
+[ext_resource type="Material" uid="uid://da188d7yrcfr8" path="res://level/platforms.tres" id="10_ekmo3"]
+[ext_resource type="PackedScene" uid="uid://c6uew1wfpkt16" path="res://level/flag/flag_3d.tscn" id="11_q3e7f"]
+
+[sub_resource type="Curve" id="Curve_k4wis"]
+_data = [Vector2(0.331719, 0.0391753), 0.0, 0.0, 0, 0, Vector2(0.697336, 1), 0.51276, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_moxc7"]
+curve = SubResource("Curve_k4wis")
+
+[sub_resource type="Gradient" id="Gradient_4p0vt"]
+offsets = PackedFloat32Array(0.784123, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_jnnrx"]
+frequency = 0.3589
+fractal_octaves = 4
+cellular_distance_function = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_83fre"]
+width = 1024
+height = 1024
+generate_mipmaps = false
+seamless = true
+color_ramp = SubResource("Gradient_4p0vt")
+noise = SubResource("FastNoiseLite_jnnrx")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g8ud2"]
+shader = ExtResource("1_5ev06")
+shader_parameter/top_color = Color(0.288469, 0.182916, 1, 1)
+shader_parameter/bottom_color = Color(1, 0.46805, 0, 1)
+shader_parameter/moon_direction = Vector3(-1.095, 0.68, 1)
+shader_parameter/moon_size = 0.045
+shader_parameter/gradient_curve = SubResource("CurveTexture_moxc7")
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_83fre")
+shader_parameter/moon_texture = ExtResource("2_bv4v3")
+
+[sub_resource type="Sky" id="Sky_0h0bb"]
+sky_material = SubResource("ShaderMaterial_g8ud2")
+
+[sub_resource type="Environment" id="Environment_5pwhg"]
+background_mode = 2
+sky = SubResource("Sky_0h0bb")
+ambient_light_source = 3
+ambient_light_color = Color(0.74902, 0.742654, 0.615273, 1)
+ambient_light_sky_contribution = 0.0
+tonemap_mode = 2
+tonemap_exposure = 1.05
+tonemap_white = 0.95
+ssao_enabled = true
+ssao_radius = 2.0
+ssao_intensity = 1.4
+glow_intensity = 4.98
+glow_strength = 0.26
+glow_bloom = 0.08
+glow_blend_mode = 0
+glow_hdr_threshold = 0.26
+glow_hdr_scale = 0.0
+glow_hdr_luminance_cap = 18.75
+glow_map_strength = 1.0
+fog_light_color = Color(0.843137, 0.737255, 0.329412, 1)
+fog_density = 0.0
+fog_aerial_perspective = 1.0
+fog_sky_affect = 0.0
+fog_height_density = 0.1
+volumetric_fog_density = 0.01
+volumetric_fog_albedo = Color(0.843137, 0.737255, 0.329412, 1)
+volumetric_fog_emission = Color(0.843137, 0.737255, 0.329412, 1)
+
+[node name="Level" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_5pwhg")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.353554, 0.866025, -0.353553, 0.707107, -3.09086e-08, 0.707107, 0.612373, -0.5, -0.612372, 0, 25, 0)
+light_energy = 0.53
+shadow_enabled = true
+directional_shadow_max_distance = 40.0
+
+[node name="KillPlane" parent="." instance=ExtResource("3_8ysv3")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, -20, 0)
+
+[node name="Flag3D" parent="." instance=ExtResource("11_q3e7f")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -19, 8, 19)
+
+[node name="goal_platform" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 7, 19)
+material_override = ExtResource("7_ddd6t")
+use_collision = true
+size = Vector3(8, 2, 8)
+
+[node name="Ground" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+material_override = ExtResource("6_trypo")
+use_collision = true
+size = Vector3(50, 2, 50)
+
+[node name="Composite" type="CSGCombiner3D" parent="."]
+material_override = ExtResource("10_ekmo3")
+use_collision = true
+
+[node name="box1" type="CSGBox3D" parent="Composite"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 2, 21)
+material_override = ExtResource("10_ekmo3")
+use_collision = true
+size = Vector3(4, 4, 4)
+
+[node name="box5" type="CSGBox3D" parent="Composite"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 1, 15)
+material_override = ExtResource("10_ekmo3")
+use_collision = true
+size = Vector3(4, 2, 8)
+
+[node name="box2" type="CSGBox3D" parent="Composite"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 3, 19)
+material_override = ExtResource("10_ekmo3")
+use_collision = true
+size = Vector3(8, 6, 8)
+
+[node name="box3" type="CSGBox3D" parent="Composite"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 2, -21)
+material_override = ExtResource("10_ekmo3")
+use_collision = true
+size = Vector3(4, 4, 4)
+
+[node name="box4" type="CSGBox3D" parent="Composite"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 2, -21)
+material_override = ExtResource("10_ekmo3")
+use_collision = true
+size = Vector3(4, 4, 4)
+
+[node name="box6" type="CSGBox3D" parent="Composite"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 1, -21)
+material_override = ExtResource("10_ekmo3")
+use_collision = true
+size = Vector3(4, 2, 4)
+
+[node name="ramp1" type="CSGPolygon3D" parent="Composite"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 19, 2, 15)
+use_collision = true
+polygon = PackedVector2Array(0, 0, 4, 2, 4, 0)
+depth = 4.0
+material = ExtResource("10_ekmo3")
+
+[node name="ramp2" type="CSGPolygon3D" parent="Composite"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 15)
+use_collision = true
+polygon = PackedVector2Array(0, 0, 4, 2, 4, 0)
+depth = 4.0
+material = ExtResource("10_ekmo3")
+
+[node name="Moving Platform" parent="." instance=ExtResource("8_lxby2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 3.5, 21)
