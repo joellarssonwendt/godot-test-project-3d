@@ -1,11 +1,12 @@
-[gd_scene load_steps=17 format=3 uid="uid://d0h3acgnnfrgq"]
+[gd_scene load_steps=18 format=3 uid="uid://d0h3acgnnfrgq"]
 
 [ext_resource type="Shader" uid="uid://cdlt3ujrpad32" path="res://level/sky_with_stars.tres" id="1_5ev06"]
 [ext_resource type="Texture2D" uid="uid://ca3jtautvrj1u" path="res://level/moon.png" id="2_bv4v3"]
 [ext_resource type="PackedScene" uid="uid://bij84ol81kcts" path="res://level/kill_plane/kill_plane_3d.tscn" id="3_8ysv3"]
 [ext_resource type="Material" uid="uid://dwjc5hqnxitps" path="res://level/ground.tres" id="6_trypo"]
 [ext_resource type="Material" uid="uid://cwmijyo6560y3" path="res://level/flag_ground.tres" id="7_ddd6t"]
-[ext_resource type="PackedScene" uid="uid://c6dc57cgv1k57" path="res://level/moving_platform.tscn" id="8_lxby2"]
+[ext_resource type="PackedScene" uid="uid://c6dc57cgv1k57" path="res://level/moving_platform_h.tscn" id="8_lxby2"]
+[ext_resource type="PackedScene" uid="uid://3wlmd1m6ekad" path="res://level/moving_platform_v.tscn" id="9_cuqg0"]
 [ext_resource type="Material" uid="uid://da188d7yrcfr8" path="res://level/platforms.tres" id="10_ekmo3"]
 [ext_resource type="PackedScene" uid="uid://c6uew1wfpkt16" path="res://level/flag/flag_3d.tscn" id="11_q3e7f"]
 
@@ -114,6 +115,12 @@ material_override = ExtResource("10_ekmo3")
 use_collision = true
 size = Vector3(4, 4, 4)
 
+[node name="box7" type="CSGBox3D" parent="Composite"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, 21)
+material_override = ExtResource("10_ekmo3")
+use_collision = true
+size = Vector3(4, 4, 4)
+
 [node name="box5" type="CSGBox3D" parent="Composite"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 1, 15)
 material_override = ExtResource("10_ekmo3")
@@ -127,10 +134,10 @@ use_collision = true
 size = Vector3(8, 6, 8)
 
 [node name="box3" type="CSGBox3D" parent="Composite"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 2, -21)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 5, -21)
 material_override = ExtResource("10_ekmo3")
 use_collision = true
-size = Vector3(4, 4, 4)
+size = Vector3(4, 10, 4)
 
 [node name="box4" type="CSGBox3D" parent="Composite"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 2, -21)
@@ -159,4 +166,7 @@ depth = 4.0
 material = ExtResource("10_ekmo3")
 
 [node name="Moving Platform" parent="." instance=ExtResource("8_lxby2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 3.5, 21)
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 16, 3.5, 21)
+
+[node name="MovingPlatform" parent="." instance=ExtResource("9_cuqg0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.5, -21)
