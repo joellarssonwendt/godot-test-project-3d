@@ -3,7 +3,7 @@
 This is a test project where I am learning to use the **Godot Engine**, **GDScript**, and related tools to create a **3D game**. The goal is to transform the result of **[GDQuest](https://www.gdquest.com/)**'s tutorial on character movement in 3D and make it my own, with my own ideas and implementations to compliment and enhance what **[GDQuest](https://www.gdquest.com/)** has provided.
 
 ## Credits  
-- **[GDQuest](https://www.gdquest.com/)** for tutorials on Godot, for providing meshes and other assets. 
+- **[GDQuest](https://www.gdquest.com/)** for tutorials on Godot and for providing meshes and other assets. 
 
 ## License  
 This project is licensed under the **MIT License**.  
