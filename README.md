@@ -1,4 +1,4 @@
-# Godot 3D Platformer Test
+# Godot Test Project 3D
 
 This is a test project where I am learning to use the **Godot Engine**, **GDScript**, and related tools to create a **3D game**. The goal is to transform the result of **[GDQuest](https://www.gdquest.com/)**'s tutorial on character movement in 3D and make it my own, with my own ideas and implementations to compliment and enhance what **[GDQuest](https://www.gdquest.com/)** has provided.
 
