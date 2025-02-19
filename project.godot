@@ -32,6 +32,10 @@ window/stretch/mode="canvas_items"
 
 enabled=PackedStringArray("res://addons/gdquest_colorpicker_presets/plugin.cfg")
 
+[global_group]
+
+Player="A Player controlled character."
+
 [input]
 
 forward={

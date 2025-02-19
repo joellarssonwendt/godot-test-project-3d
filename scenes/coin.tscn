@@ -1,0 +1,97 @@
+[gd_scene load_steps=9 format=3 uid="uid://brcamfkyojyi3"]
+
+[ext_resource type="Script" path="res://scenes/coin.gd" id="1_dodsm"]
+[ext_resource type="PackedScene" uid="uid://bbax6uaxmldvc" path="res://addons/KayKit_PrototypeBits/Coin_A.gltf" id="1_ppx00"]
+[ext_resource type="PackedScene" uid="uid://dhlbc1gwdsfd2" path="res://addons/KayKit_PrototypeBits/Coin_B.gltf" id="2_oh352"]
+[ext_resource type="AudioStream" uid="uid://jxnc226jnasb" path="res://audio/get.wav" id="4_kqlio"]
+
+[sub_resource type="Animation" id="Animation_7q2nx"]
+resource_name = "Idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Gold Coin:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 3.14159, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Silver Coin:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 3.14159, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_256ti"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Gold Coin:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Silver Coin:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ukuur"]
+_data = {
+"Idle": SubResource("Animation_7q2nx"),
+"RESET": SubResource("Animation_256ti")
+}
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_l72p2"]
+radius = 0.6
+
+[node name="Coin" type="Node3D"]
+script = ExtResource("1_dodsm")
+
+[node name="Gold Coin" parent="." instance=ExtResource("1_ppx00")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Silver Coin" parent="." instance=ExtResource("2_oh352")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ukuur")
+}
+autoplay = "Idle"
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("SphereShape3D_l72p2")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_kqlio")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

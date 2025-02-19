@@ -3,12 +3,12 @@
 [ext_resource type="Script" path="res://game.gd" id="1_7yed4"]
 [ext_resource type="PackedScene" uid="uid://b1ot6gn6tms6h" path="res://player/player_3d_template.tscn" id="2_np7c1"]
 [ext_resource type="PackedScene" uid="uid://bxg6oejpaitdt" path="res://level/flag/flag_reached_screen.tscn" id="3_ucolr"]
-[ext_resource type="PackedScene" uid="uid://d0h3acgnnfrgq" path="res://scenes/Level_1.tscn" id="4_2m8l0"]
+[ext_resource type="PackedScene" uid="uid://d0h3acgnnfrgq" path="res://scenes/level_1.tscn" id="4_2m8l0"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_7yed4")
 
-[node name="Player" parent="." instance=ExtResource("2_np7c1")]
+[node name="Player" parent="." groups=["Player"] instance=ExtResource("2_np7c1")]
 
 [node name="FlagReachedScreen" parent="." instance=ExtResource("3_ucolr")]
 

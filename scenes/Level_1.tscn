@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://d0h3acgnnfrgq"]
+[gd_scene load_steps=19 format=3 uid="uid://d0h3acgnnfrgq"]
 
 [ext_resource type="Shader" uid="uid://cdlt3ujrpad32" path="res://level/sky_with_stars.tres" id="1_5ev06"]
 [ext_resource type="Texture2D" uid="uid://ca3jtautvrj1u" path="res://level/moon.png" id="2_bv4v3"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://c6dc57cgv1k57" path="res://level/moving_platform_h.tscn" id="8_lxby2"]
 [ext_resource type="PackedScene" uid="uid://3wlmd1m6ekad" path="res://level/moving_platform_v.tscn" id="9_cuqg0"]
 [ext_resource type="Material" uid="uid://da188d7yrcfr8" path="res://level/platforms.tres" id="10_ekmo3"]
+[ext_resource type="PackedScene" uid="uid://brcamfkyojyi3" path="res://scenes/coin.tscn" id="10_nqtrm"]
 [ext_resource type="PackedScene" uid="uid://c6uew1wfpkt16" path="res://level/flag/flag_3d.tscn" id="11_q3e7f"]
 
 [sub_resource type="Curve" id="Curve_k4wis"]
@@ -78,95 +79,110 @@ volumetric_fog_emission = Color(0.843137, 0.737255, 0.329412, 1)
 
 [node name="Level" type="Node3D"]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="System" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="System"]
 environment = SubResource("Environment_5pwhg")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.353554, 0.866025, -0.353553, 0.707107, -3.09086e-08, 0.707107, 0.612373, -0.5, -0.612372, 0, 25, 0)
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="System"]
+transform = Transform3D(0.353554, 0.866025, -0.353553, 0.707107, -9.41289e-08, 0.707107, 0.612373, -0.5, -0.612372, 0, 25, 0)
 light_energy = 0.53
 shadow_enabled = true
 directional_shadow_max_distance = 40.0
 
-[node name="KillPlane" parent="." instance=ExtResource("3_8ysv3")]
+[node name="KillPlane" parent="System" instance=ExtResource("3_8ysv3")]
 transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, -20, 0)
 
-[node name="Flag3D" parent="." instance=ExtResource("11_q3e7f")]
+[node name="Flag3D" parent="System" instance=ExtResource("11_q3e7f")]
 transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -19, 8, 19)
 
-[node name="goal_platform" type="CSGBox3D" parent="."]
+[node name="goal_platform" type="CSGBox3D" parent="System"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 7, 19)
 material_override = ExtResource("7_ddd6t")
 use_collision = true
 size = Vector3(8, 2, 8)
 
-[node name="Ground" type="CSGBox3D" parent="."]
+[node name="Ground" type="CSGBox3D" parent="System"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 material_override = ExtResource("6_trypo")
 use_collision = true
 size = Vector3(50, 2, 50)
 
-[node name="Composite" type="CSGCombiner3D" parent="."]
+[node name="Composite Shape" type="CSGCombiner3D" parent="."]
 material_override = ExtResource("10_ekmo3")
 use_collision = true
 
-[node name="box1" type="CSGBox3D" parent="Composite"]
+[node name="box1" type="CSGBox3D" parent="Composite Shape"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 2, 21)
 material_override = ExtResource("10_ekmo3")
 use_collision = true
 size = Vector3(4, 4, 4)
 
-[node name="box7" type="CSGBox3D" parent="Composite"]
+[node name="box7" type="CSGBox3D" parent="Composite Shape"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, 21)
 material_override = ExtResource("10_ekmo3")
 use_collision = true
 size = Vector3(4, 4, 4)
 
-[node name="box5" type="CSGBox3D" parent="Composite"]
+[node name="box5" type="CSGBox3D" parent="Composite Shape"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 1, 15)
 material_override = ExtResource("10_ekmo3")
 use_collision = true
 size = Vector3(4, 2, 8)
 
-[node name="box2" type="CSGBox3D" parent="Composite"]
+[node name="box2" type="CSGBox3D" parent="Composite Shape"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 3, 19)
 material_override = ExtResource("10_ekmo3")
 use_collision = true
 size = Vector3(8, 6, 8)
 
-[node name="box3" type="CSGBox3D" parent="Composite"]
+[node name="box3" type="CSGBox3D" parent="Composite Shape"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 5, -21)
 material_override = ExtResource("10_ekmo3")
 use_collision = true
 size = Vector3(4, 10, 4)
 
-[node name="box4" type="CSGBox3D" parent="Composite"]
+[node name="box4" type="CSGBox3D" parent="Composite Shape"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 2, -21)
 material_override = ExtResource("10_ekmo3")
 use_collision = true
 size = Vector3(4, 4, 4)
 
-[node name="box6" type="CSGBox3D" parent="Composite"]
+[node name="box6" type="CSGBox3D" parent="Composite Shape"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 1, -21)
 material_override = ExtResource("10_ekmo3")
 use_collision = true
 size = Vector3(4, 2, 4)
 
-[node name="ramp1" type="CSGPolygon3D" parent="Composite"]
+[node name="ramp1" type="CSGPolygon3D" parent="Composite Shape"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 19, 2, 15)
 use_collision = true
 polygon = PackedVector2Array(0, 0, 4, 2, 4, 0)
 depth = 4.0
 material = ExtResource("10_ekmo3")
 
-[node name="ramp2" type="CSGPolygon3D" parent="Composite"]
+[node name="ramp2" type="CSGPolygon3D" parent="Composite Shape"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 15)
 use_collision = true
 polygon = PackedVector2Array(0, 0, 4, 2, 4, 0)
 depth = 4.0
 material = ExtResource("10_ekmo3")
 
-[node name="Moving Platform" parent="." instance=ExtResource("8_lxby2")]
+[node name="Moving Platforms" type="Node3D" parent="."]
+
+[node name="moving_platform_v (0)" parent="Moving Platforms" instance=ExtResource("9_cuqg0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.5, -21)
+
+[node name="moving_platform_h (0)" parent="Moving Platforms" instance=ExtResource("8_lxby2")]
 transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 16, 3.5, 21)
 
-[node name="MovingPlatform" parent="." instance=ExtResource("9_cuqg0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.5, -21)
+[node name="Coins" type="Node3D" parent="."]
+
+[node name="Coin 1" parent="Coins" instance=ExtResource("10_nqtrm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, 13)
+
+[node name="Coin 2" parent="Coins" instance=ExtResource("10_nqtrm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 2, 13)
+
+[node name="Coin 3" parent="Coins" instance=ExtResource("10_nqtrm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 4, 21)
